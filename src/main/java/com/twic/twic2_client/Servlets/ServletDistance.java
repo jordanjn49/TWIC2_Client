@@ -15,6 +15,8 @@ import java.util.ArrayList;
 @WebServlet("/Distance")
 public class ServletDistance extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        //Printing all different cities
         VilleAPI api = new VilleAPI();
         ArrayList<Ville> selectVille = null;
         try {
@@ -24,18 +26,23 @@ public class ServletDistance extends HttpServlet {
         }
         request.setAttribute("selectVille", selectVille);
 
+        //Calculating distance
+
+        System.out.println("Index 1");
+        System.out.println(request.getParameter("indexV1"));
+        Double distance = 35.78;
+
+
+//        HttpSession session = request.getSession();
+//        Ville ville1 = (Ville) session.getAttribute("ville1");
+//        Ville ville2 = (Ville) session.getAttribute("ville2");
+//        double distance = ville1.getDistance(ville2);
+//        session.setAttribute("distance",distance);
+
         this.getServletContext().getRequestDispatcher("/WEB-INF/pageDistance.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Ville ville1 = (Ville) session.getAttribute("ville1");
-        Ville ville2 = (Ville) session.getAttribute("ville2");
-        System.out.println(ville1.toString());
-        System.out.println(ville2.toString());
-        double distance = ville1.getDistance(ville2);
-        System.out.println(distance);
-        //session.setAttribute("distance",distance);
         this.getServletContext().getRequestDispatcher("/WEB-INF/pageDistance.jsp").forward(request, response);
     }
 }
