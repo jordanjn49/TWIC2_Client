@@ -5,12 +5,9 @@
     <title></title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
     <script type="text/javascript">
-        function getIndexes() {
-            var indexV1 = document.getElementById("ville1").selectedIndex;
-            var indexV2 = document.getElementById("ville2").selectedIndex;
-            alert('Selected Indexes are : ' + indexV1 + ' ' + indexV2);
-            // document.getElementById('i1').value = indexV1;
-            // document.getElementById('i2').value = indexV2;
+        function submitForms() {
+            document.getElementById("formV1").submit();
+            document.getElementById("formV2").submit();
         }
     </script>
 </head>
@@ -31,19 +28,22 @@
                 <p>Veuillez choisir une ville de France parmis les villes représentées dans la liste ci-dessous.</p>
 
 
-
-                <select class="form-select" data-live-search="true" aria-label="Default select example" id="ville1">
-                    <optgroup label="Code postal - Nom de commune">
-                        <c:forEach items="${ sessionScope.selectVille }" var="ville" varStatus="index">
-                            <option value="${ index.count }"><c:out value="${ ville.codePostal } - ${ ville.nomCommune }" /></option>
-                        </c:forEach>
-                    </optgroup>
-                </select>
+                <form id="formV1" method="post" action="/Distance">
+                    <select class="form-select" data-live-search="true" aria-label="Default select example" id="id1" name="id1">
+                        <optgroup label="Code postal - Nom de commune">
+                            <c:forEach items="${ sessionScope.selectVille }" var="ville" varStatus="index">
+                                <option value="${ ville.id }"><c:out value="${ ville.codePostal } - ${ ville.nomCommune }" /></option>
+                            </c:forEach>
+                        </optgroup>
+                    </select>
+                </form>
                 <br>
-                <h5 style="color: goldenrod"><c:out value="Température actuelle : ${ sessionScope.tempV1 }°C"/></h5>
-                <div class="feature-icon pb-3">
-                    <img src="${ iconV1 }" class="" style="max-width:20%;" alt="Responsive image">
-                </div>
+                <c:if test="${ !empty sessionScope.tempV1 }">
+                    <h5 style="color: goldenrod"><c:out value="Température actuelle : ${ sessionScope.tempV1 }°C"/></h5>
+                    <div class="feature-icon pb-3">
+                        <img src="${ iconV1 }" class="" style="max-width:20%;" alt="Responsive image">
+                    </div>
+                </c:if>
             </div>
 
 
@@ -57,7 +57,7 @@
                     <form method="post" action="distance">
 <%--                        <input type="hidden" id="test" value="i1"/>--%>
 <%--                        <input type="hidden" id="test2" value="i2"/>--%>
-                        <input type="submit" class="btn btn-outline-warning" onclick="getIndexes()" value="GO"/>
+                        <input type="submit" class="btn btn-outline-warning" onclick="submitForms()" value="GO"/>
                     </form>
             </div>
 
@@ -72,18 +72,22 @@
                 </div>
                 <h2>2ème Ville : </h2>
                 <p>Veuillez choisir une deuxième ville parmis les villes représentées dans la liste ci-dessous.</p>
-                <select class="form-select" data-live-search="true" aria-label="Default select example" id="ville2">
-                    <optgroup label="Code postal - Nom de commune">
-                         <c:forEach items="${ sessionScope.selectVille }" var="ville" varStatus="index">
-                             <option value="${ index.count }"><c:out value="${ ville.codePostal } - ${ ville.nomCommune }" /></option>
-                         </c:forEach>
-                    </optgroup>
-                </select>
+                <form id="formV1" method="post" action="/Distance">
+                    <select class="form-select" data-live-search="true" aria-label="Default select example" id="id2" name="id2">
+                        <optgroup label="Code postal - Nom de commune">
+                             <c:forEach items="${ sessionScope.selectVille }" var="ville" varStatus="index">
+                                 <option value="${ ville.id }"><c:out value="${ ville.codePostal } - ${ ville.nomCommune }" /></option>
+                             </c:forEach>
+                        </optgroup>
+                    </select>
+                </form>
                 <br>
-                <h5 style="color: goldenrod"><c:out value="Température actuelle : ${ sessionScope.tempV2 }°C"/></h5>
-                <div class="feature-icon pb-3">
-                    <img src="${ sessionScope.iconV2 }" class="" style="max-width:20%;" alt="Responsive image">
-                </div>
+                <c:if test="${ !empty sessionScope.tempV1 }">
+                    <h5 style="color: goldenrod"><c:out value="Température actuelle : ${ sessionScope.tempV2 }°C"/></h5>
+                    <div class="feature-icon pb-3">
+                        <img src="${ sessionScope.iconV2 }" class="" style="max-width:20%;" alt="Responsive image">
+                    </div>
+                </c:if>
             </div>
 
 
@@ -101,7 +105,9 @@
                 </div>
                 <h2>Distance</h2>
                 <p>La distance estimée entre les deux villes vaut</p>
-                <h4 style="color: goldenrod"><c:out value="${ sessionScope.distance } km(s)."/></h4>
+                <c:if test="${ !empty sessionScope.tempV1 }">
+                    <h4 style="color: goldenrod"><c:out value="${ sessionScope.distance } km(s)."/></h4>
+                </c:if>
             </div>
             <div class="feature col"></div>
         </div>

@@ -16,8 +16,10 @@ import java.util.ArrayList;
 @WebServlet("/ServletListeVilles")
 public class ServletListeVilles extends HttpServlet {
 
+    VilleAPI api = new VilleAPI();
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        VilleAPI api = new VilleAPI();
+
         ArrayList<Ville> listVilles = null;
         try {
             listVilles = api.getAllVilles();

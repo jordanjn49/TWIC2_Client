@@ -28,19 +28,29 @@ public class VilleAPI {
         return response.body().split("[,{}:]");
     }
 
-    private void deleteHttpRequest(String id) throws IOException, InterruptedException {
+    public void deleteHttpRequest(String id) throws IOException, InterruptedException {
         // Requesting connection with API
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("http://localhost:8181/villes/delete/?id="+id))
+                .uri(URI.create("http://localhost:8181/villes/delete/"+id))
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         System.out.println("Request status : " + response.statusCode());
     }
-    
+
+    private String[] getByIdHttpRequest(String id) throws IOException, InterruptedException {
+        // Requesting connection with API
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("http://localhost:8181/villes/find/"+id))
+                .build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println("Request status : " + response.statusCode());
+        return response.body().split("[,{}:]");
+    }
+
     public ArrayList<Ville> getAllVilles() throws IOException, InterruptedException {
         String[] json = this.getHttpRequest();
-        
         //Parsing the result into ArrayList objects
         ArrayList<Ville> listVille = new ArrayList<>();
         for (int i=0; i < json.length/16; i++) {
@@ -55,6 +65,19 @@ public class VilleAPI {
             listVille.add(villeSelected);
         }
         return listVille;
+    }
+
+    public Ville getVilleById(String id) throws IOException, InterruptedException {
+        String[] json = this.getByIdHttpRequest(id);
+            Ville villeSelected = new Ville();
+            villeSelected.setId(json[2].replaceAll("\"",""));
+            villeSelected.setNomCommune(json[4].replaceAll("\"",""));
+            villeSelected.setCodePostal(json[6].replaceAll("\"",""));
+            villeSelected.setLibelle(json[8].replaceAll("\"",""));
+            villeSelected.setLigne(json[10].replaceAll("\"",""));
+            villeSelected.setLatitude(json[12].replaceAll("\"",""));
+            villeSelected.setLongitude(json[14].replaceAll("\"",""));
+        return villeSelected;
     }
 
 }

@@ -3,13 +3,17 @@
     <head>
         <jsp:include page="header.jsp" />
         <script src="https://kit.fontawesome.com/5d604ee4ae.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
+        <script type='text/javascript' src='https://s3.amazonaws.com/dynatable-docs-assets/js/jquery.dynatable.js'></script>
+        <link rel="stylesheet" media="all" href="https://s3.amazonaws.com/dynatable-docs-assets/css/jquery.dynatable.css" />
         <title></title>
     </head>
+
     <body class="pt-5">
         <jsp:include page="navBar.jsp" />
 
         <div class="mx-5 my-5">
-        <table id="table" class="table">
+        <table id="tableCommune" class="table">
             <thead>
             <tr class="table-dark">
                 <th scope="col"></th>
@@ -21,13 +25,17 @@
                 <th scope="col">Latitude</th>
                 <th scope="col">Longitude</th>
             </tr>
+            </thead>
+            <tbody>
             <jsp:useBean id="listVilles" scope="request" type="java.util.ArrayList"/>
             <c:forEach items="${ listVilles }" var="ville">
                 <tr>
                     <td>
-                        <button type="button" class="btn btn-outline-danger">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
+                        <a href="">
+                            <button type="button" class="btn btn-outline-danger">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </a>
                         <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#exampleModal">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
@@ -41,9 +49,48 @@
                     <td><c:out value="${ ville.longitude }" /></td>
                 </tr>
             </c:forEach>
-            </thead>
+            </tbody>
         </table>
         </div>
+
+        <script>
+            $(document).ready(function() {
+                $('#tableCommune').dynatable({
+                    features: {
+                        paginate: true,
+                        sort: true,
+                        pushState: true,
+                        search: true,
+                        recordCount: true,
+                        perPageSelect: true
+                    },
+                    dataset: {
+                        perPageDefault: 50,
+                        perPageOptions: [5, 10, 25, 50, 100]
+                    },
+                    inputs: {
+                        paginationNext: ">>",
+                        paginationPrev: "<<",
+                        pageText: "Page",
+                        recordCountText: "Communes",
+                        searchText: "Rechercher : ",
+                        perPageText: "Pagination : ",
+                        recordCountPageBoundTemplate: "{pageLowerBound} à {pageUpperBound} sur un total de"
+                    },
+                    params:{
+                        records: "communes"
+                    }
+                });
+                var styleSearch = "border: 2px solid goldenrod; border-radius: 3px;";
+                var styleActive = "background: goldenrod;";
+
+                document.getElementById('dynatable-query-search-tableCommune').setAttribute('style', styleSearch);
+                document.getElementsByClassName('dynatable-active-page').setAttribute('style',styleActive);
+                document.ge
+
+
+            });
+        </script>
 
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -95,22 +142,8 @@
             </div>
         </div>
 
-        <nav aria-label="...">
-            <ul class="pagination justify-content-center" >
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active">
-                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+<%--        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>--%>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     </body>
 </html>
