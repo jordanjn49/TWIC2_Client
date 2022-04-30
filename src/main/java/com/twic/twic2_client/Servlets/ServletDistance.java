@@ -37,15 +37,15 @@ public class ServletDistance extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id1 = request.getParameter("id1");
         String id2 = request.getParameter("id2");
-        System.out.println("Les ids sont " + id1 + ' ' + id2);
+        System.out.println("Les IDs sont " + id1 + ' ' + id2);
 
         double distance = 0;
         int tempV1 = 0, tempV2 = 0;
-        String iconV1 = "", iconV2 = "",latV1, lonV1, latV2, lonV2;
+        String iconV1 = "", iconV2 = "",latV1, lonV1, latV2, lonV2, nameV1 = "", nameV2 = "";
 
         try {
-            Ville ville1 = v_api.getVilleById("01002");
-            Ville ville2 = v_api.getVilleById("01004");
+            Ville ville1 = v_api.getVilleById(id1);
+            Ville ville2 = v_api.getVilleById(id2);
             latV1 = ville1.getLatitude();
             lonV1 = ville1.getLongitude();
             latV2 = ville2.getLatitude();
@@ -55,10 +55,13 @@ public class ServletDistance extends HttpServlet {
             iconV1 = w_api.getWeatherIcon(latV1, lonV1);
             iconV2 = w_api.getWeatherIcon(latV2, lonV2);
             distance = ville1.getDistance(ville2);
+            nameV1 = ville1.getNomCommune();
+            nameV2 = ville2.getNomCommune();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        request.getSession().setAttribute("nameV1", nameV1);
+        request.getSession().setAttribute("nameV2", nameV2);
         request.getSession().setAttribute("tempV1", tempV1);
         request.getSession().setAttribute("tempV2", tempV2);
         request.getSession().setAttribute("iconV1", iconV1);
