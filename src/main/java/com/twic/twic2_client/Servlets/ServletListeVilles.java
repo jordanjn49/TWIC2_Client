@@ -9,20 +9,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet("/ServletListeVilles")
 public class ServletListeVilles extends HttpServlet {
 
-    VilleAPI api = new VilleAPI();
+    VilleAPI v_api = new VilleAPI();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         ArrayList<Ville> listVilles = null;
         try {
-            listVilles = api.getAllVilles();
+            listVilles = v_api.getAllVilles();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -32,6 +31,15 @@ public class ServletListeVilles extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id1 = request.getParameter("id_to_delete");
+
+        System.out.println(id1);
+//        try {
+//            v_api.deleteVilleById(id1);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
         this.getServletContext().getRequestDispatcher("/WEB-INF/pageListeVilles.jsp").forward(request, response);
     }
 }

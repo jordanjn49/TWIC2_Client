@@ -28,16 +28,6 @@ public class VilleAPI {
         return response.body().split("[,{}:]");
     }
 
-    public void deleteHttpRequest(String id) throws IOException, InterruptedException {
-        // Requesting connection with API
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(URI.create("http://localhost:8181/villes/delete/"+id))
-                .build();
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println("Request status : " + response.statusCode());
-    }
-
     private String[] getByIdHttpRequest(String id) throws IOException, InterruptedException {
         // Requesting connection with API
         HttpRequest request = HttpRequest.newBuilder()
@@ -78,6 +68,16 @@ public class VilleAPI {
             villeSelected.setLatitude(json[12].replaceAll("\"",""));
             villeSelected.setLongitude(json[14].replaceAll("\"",""));
         return villeSelected;
+    }
+
+    public void deleteVilleById(String id) throws IOException, InterruptedException {
+        // Requesting connection with API
+        HttpRequest request = HttpRequest.newBuilder()
+                .DELETE()
+                .uri(URI.create("http://localhost:8181/villes/delete/"+id))
+                .build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println("Request status : " + response.statusCode());
     }
 
 }

@@ -13,6 +13,8 @@ public class DistanceTest {
         ville2 = api.getAllVilles().get(5);
         System.out.println(ville1.getDistance(ville2));
         System.out.println(api.getVilleById("01002"));
+        api.deleteVilleById("01026");
+        System.out.println("Done!");
     }
 
 }

@@ -10,7 +10,7 @@
         <jsp:include page="navBar.jsp"/>
         <br><br>
 
-        <form id="formV1" method="post" action="/Distance">
+        <form id="formDistance" method="post" action="/Distance">
             <div class="container px-4 pt-4" id="choix">
                 <h2 class="pb-2 border-bottom">Outil : Calcul de distance entre deux villes </h2>
                 <div class="row g-4 pt-3 row-cols-1 row-cols-lg-3">

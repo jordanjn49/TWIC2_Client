@@ -12,97 +12,94 @@
     <body class="pt-5">
         <jsp:include page="navBar.jsp" />
 
-        <div class="mx-5 my-5">
-        <table id="tableCommune" class="table">
-            <thead>
-            <tr class="table-dark">
-                <th scope="col"></th>
-                <th scope="col">Code INSEE</th>
-                <th scope="col">Nom de commune</th>
-                <th scope="col">CP</th>
-                <th scope="col">Libelle d'acheminement</th>
-                <th scope="col">Ligne 5</th>
-                <th scope="col">Latitude</th>
-                <th scope="col">Longitude</th>
-            </tr>
-            </thead>
-            <tbody>
-            <jsp:useBean id="listVilles" scope="request" type="java.util.ArrayList"/>
-            <c:forEach items="${ listVilles }" var="ville">
-                <tr>
-                    <td>
-                        <a href="">
-                            <button type="button" class="btn btn-outline-danger">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </a>
-                        <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#exampleModal">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </button>
-                    </td>
-                    <td><c:out value="${ ville.id }" /></td>
-                    <td><c:out value="${ ville.nomCommune }" /></td>
-                    <td><c:out value="${ ville.codePostal }" /></td>
-                    <td><c:out value="${ ville.libelle }" /></td>
-                    <td><c:out value="${ ville.ligne }" /></td>
-                    <td><c:out value="${ ville.latitude }" /></td>
-                    <td><c:out value="${ ville.longitude }" /></td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        </div>
+            <div class="mx-5 my-5">
+                <table id="tableCommune" class="table">
+                    <thead>
+                        <tr class="table-dark">
+                            <th scope="col"></th>
+                            <th scope="col">Code INSEE</th>
+                            <th scope="col">Nom de commune</th>
+                            <th scope="col">CP</th>
+                            <th scope="col">Libelle d'acheminement</th>
+                            <th scope="col">Ligne 5</th>
+                            <th scope="col">Latitude</th>
+                            <th scope="col">Longitude</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${ listVilles }" var="ville">
+                            <tr>
+                                <td>
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#editModal">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </td>
+                                <td><c:out value="${ ville.id }" /></td>
+                                <td><c:out value="${ ville.nomCommune }" /></td>
+                                <td><c:out value="${ ville.codePostal }" /></td>
+                                <td><c:out value="${ ville.libelle }" /></td>
+                                <td><c:out value="${ ville.ligne }" /></td>
+                                <td><c:out value="${ ville.latitude }" /></td>
+                                <td><c:out value="${ ville.longitude }" /></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
 
-        <script>
-            $(document).ready(function() {
-                $('#tableCommune').dynatable({
-                    features: {
-                        paginate: true,
-                        sort: true,
-                        pushState: true,
-                        search: true,
-                        recordCount: true,
-                        perPageSelect: true
-                    },
-                    dataset: {
-                        perPageDefault: 50,
-                        perPageOptions: [5, 10, 25, 50, 100]
-                    },
-                    inputs: {
-                        paginationNext: ">>",
-                        paginationPrev: "<<",
-                        pageText: "Page",
-                        recordCountText: "Communes",
-                        searchText: "Rechercher : ",
-                        perPageText: "Pagination : ",
-                        recordCountPageBoundTemplate: "{pageLowerBound} à {pageUpperBound} sur un total de"
-                    },
-                    params:{
-                        records: "communes"
-                    }
+            <script>
+                $(document).ready(function() {
+                    $('#tableCommune').dynatable({
+                        features: {
+                            paginate: true,
+                            sort: true,
+                            pushState: true,
+                            search: true,
+                            recordCount: true,
+                            perPageSelect: true
+                        },
+                        dataset: {
+                            perPageDefault: 50,
+                            perPageOptions: [5, 10, 25, 50, 100]
+                        },
+                        inputs: {
+                            paginationNext: ">>",
+                            paginationPrev: "<<",
+                            pageText: "Page",
+                            recordCountText: "Communes",
+                            searchText: "Rechercher : ",
+                            perPageText: "Pagination : ",
+                            recordCountPageBoundTemplate: "{pageLowerBound} à {pageUpperBound} sur un total de"
+                        },
+                        params:{
+                            records: "communes"
+                        }
+                    });
+                    var styleSearch = "border: 2px solid goldenrod; border-radius: 3px;";
+                    var styleActive = "background: goldenrod;";
+
+                    document.getElementById('dynatable-query-search-tableCommune').setAttribute('style', styleSearch);
+                    document.getElementsByClassName('dynatable-active-page').setAttribute('style',styleActive);
+                    document.ge
+
+
                 });
-                var styleSearch = "border: 2px solid goldenrod; border-radius: 3px;";
-                var styleActive = "background: goldenrod;";
+            </script>
 
-                document.getElementById('dynatable-query-search-tableCommune').setAttribute('style', styleSearch);
-                document.getElementsByClassName('dynatable-active-page').setAttribute('style',styleActive);
-                document.ge
-
-
-            });
-        </script>
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modification</h5>
+                        <h5 class="modal-title">Modification</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form id="formEdit" method="post" action="/ServletListeVilles">
                             <h5>Modifier ci-dessous les attributs de la ville.</h5>
                             <div class="form-group">
                                 <label for="id_input" class="col-form-label">Code INSEE:</label>
