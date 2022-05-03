@@ -83,8 +83,6 @@
 
                     document.getElementById('dynatable-query-search-tableCommune').setAttribute('style', styleSearch);
                     document.getElementsByClassName('dynatable-active-page').setAttribute('style',styleActive);
-                    document.ge
-
 
                 });
             </script>
